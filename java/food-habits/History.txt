@@ -1,0 +1,65 @@
+
+Breakfast 14-01-2020 11:12:27
+MORI-NU
+100.0 g
+	55.0 kcal
+	3.0 fat (g)
+	1.0 sugar (g)
+	5.0 protein (g)
+	
+Breakfast 14-01-2020 11:12:29
+MORI-NU
+100.0 g
+	55.0 kcal
+	3.0 fat (g)
+	1.0 sugar (g)
+	5.0 protein (g)
+	
+Breakfast 14-01-2020 11:12:29
+Pancakes
+100.0 g
+	368.0 kcal
+	3.0 fat (g)
+	16.0 sugar (g)
+	10.0 protein (g)
+	
+Breakfast 14-01-2020 11:12:41
+MORI-NU
+100.0 g
+	55.0 kcal
+	3.0 fat (g)
+	1.0 sugar (g)
+	5.0 protein (g)
+	
+Breakfast 14-01-2020 11:12:41
+Pancakes
+100.0 g
+	368.0 kcal
+	3.0 fat (g)
+	16.0 sugar (g)
+	10.0 protein (g)
+	
+Breakfast 14-01-2020 11:12:41
+Avocados
+100.0 g
+	160.0 kcal
+	15.0 fat (g)
+	1.0 sugar (g)
+	2.0 protein (g)
+	
+Breakfast 14-01-2020 11:13:46
+Cranberry-orange relish
+100.0 g
+	178.0 kcal
+	0.0 fat (g)
+	0.0 sugar (g)
+	0.0 protein (g)
+	
+Breakfast 14-01-2020 11:22:09
+Milk
+100.0 g
+	63.0 kcal
+	3.0 fat (g)
+	0.0 sugar (g)
+	3.0 protein (g)
+	
