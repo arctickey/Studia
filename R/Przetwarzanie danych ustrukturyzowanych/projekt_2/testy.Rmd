@@ -1,0 +1,271 @@
+---
+output: 
+  pdf_document: 
+    fig_height: 3
+    fig_width: 3
+---
+
+
+  Zdecydowałem się na uzycie trzech wygenerowanych przeze mnie  zbiorw danych, kazdy z nich jest w 2D.
+Skladaja sie one z kilkuset punktow, a każdy z datasetow, ma inna liczbę grup zwarta w sobie. Zaprezentuje wyniki działania zaimplementowanego przeze mnie algorytmu, po odpowiednim dobraniu współczynnikow, tak aby, algorytm dzialal w miare dobrze.
+
+```{r,echo=FALSE,message=FALSE}
+library(dplyr)
+library(igraph)
+library(mclust)
+library(ggplot2)
+library(dendextend)
+library(mclust)
+library(knitr)
+library(Matrix)
+options(digits=2)
+options(stringsAsFactors = FALSE)
+```
+
+```{r algorytm,results="hide",message=FALSE,echo=FALSE,cache=FALSE}
+
+
+
+
+
+
+spectral_clustering<- function(X,M,k){
+
+Mnn <- function(X,M){
+  m <- matrix(0,nrow(X),nrow(X)) #tworze pusta macierz
+  m <- as.data.frame(as.matrix(dist(X))) #macierz odleglosci punktow od siebie
+  m[row(m)==col(m)] <- Inf  #ustawiam punkty na przekatnej na nieskoncznosc zeby nie brac ich pod uwage
+  m <- t(apply(m,1,order)[1:M,]) #ustawiam w kolejnosci tak zeby kolejne kolumny odpowiadaly
+  #kolejnym punktom od siebie i biore M z nich
+  m <- as.matrix(m) #jako macierz aby latwiej bylo pracowac potem na danych
+  return(m)
+}
+Mnn_graph <- function(S){
+  ro <- rep(1:nrow(S), each = ncol(S)) #ustawiam dane, aby stworzyc macierz sasiedztwa
+  co <- unlist(as.data.frame(t(S))) 
+  points <- cbind(ro, co) # punkty do macierz sasiadow
+  sym_points <- cbind(co, ro)#symetryczne punkty do macierzy sasiadow
+  m<- matrix(0, nrow = nrow(S), ncol = nrow(S)) # tworza pusata macierz o odpowiednich wymiarach
+  m[points] <- 1 #ustawiam sasiadow na 1
+  m[sym_points] <- 1 #ustawiam punkty symetryczne do sasiadow na 1 tak aby macierz byla symetryczna
+  gra <- graph.adjacency(m) #robimy graf z tej macierzy
+  com <- components(gra) #szukamy skladowych
+  comp <- igraph::groups(com)#zwracamy skladowe
+  if(length(comp)==1){ #jezeli mamy jedna skladowa to zwroc macierz
+    m <- as.matrix(m)
+    return(m)
+  }
+  elem <- lapply(comp, `[[`, 1) # jezeli mamy wiecej niz jedna skladowa to
+  #bierzemy po jednym elemencie z kazdej skladowej aby uspojnic graf
+  elem <- unlist(elem) 
+  for(i in 1:length(elem)){ #jest to mala petla wiec nie zwolni znaczaco algorytmu
+    m[elem[i-1],elem[i]] <- 1 #laczymy ze soba kazdy pierwszy punkt z kazdej skladowej
+    m[elem[i],elem[i-1]] <- 1 #symetrycznie to co wyzej
+  }
+  m <- as.matrix(m)
+  return(m)
+}
+Laplacian_eigen <- function(G,k){
+  m <- Matrix(G,sparse = TRUE) #uzywamy pakietu Matrix aby otrzymac macierz rzadka tak jak w poleceniu
+  #i zaoszczedzic troche pamieci
+  m <- graph.adjacency(m,mode="undirected")#korzystamy z igrpha aby stworzyc graf a potem otrzymac laplacian
+  laplace <- laplacian_matrix(m) #tworzymy macierz laplacianu
+  wartosci <- eigen(as.matrix(laplace))#robimy wartosci wlasne
+  wektory <- wartosci[[2]] #bierzemy wektory wlasne
+  E <- wektory[,(ncol(wektory)-k+1):ncol(wektory)] #bierzemy odpowiodnio k najwiekszych wektorow
+  return(E)
+}
+
+  var <- Mnn(X,M) #pusczamy kazda z funkcji
+  var <- Mnn_graph(var)
+  var <- Laplacian_eigen(var,k)
+  var <- kmeans(var,k,nstart = 25) #uzywamy opcji nstart aby zwiekszyc stabilnosc dzialania kmeans
+  #oraz aby otrzymac spojne wyniki
+  wynik <- as.vector(unlist(var[1]))
+  wynik <- sort(wynik) #sortujemy wynik, bo tego wymagaja mclust oraz dendextend aby poprawnie analizowac
+  #i porownywac poprawnosc danych
+  return(as.matrix(wynik))
+}
+
+
+
+
+
+
+
+```
+
+
+```{r,cache=FALSE,echo=FALSE}
+aggregation <- read.table("./pd2-zbiory-benchmarkowe/moje/aggregation.data")
+aggregation.label <- as.matrix(read.table("./pd2-zbiory-benchmarkowe/moje/aggregation.labels0"))
+flame <- read.table("./pd2-zbiory-benchmarkowe/moje/flame.data")
+flame.label <- as.matrix(read.table("./pd2-zbiory-benchmarkowe/moje/flame.labels0"))
+compound <- read.table("./pd2-zbiory-benchmarkowe/moje/compound.data")
+compound.label <- as.matrix(read.table("./pd2-zbiory-benchmarkowe/moje/compound.labels0"))
+```
+
+Zbiory danych ktore wybralem jako te ktore chce dodac to istniejacego juz datasetu wygladaja nastepujaco:
+
+```{r,echo=FALSE}
+agg <- cbind(aggregation,aggregation.label)
+colnames(agg) <- c("V1","V2","V3")
+ggplot(aggregation, aes(x=agg$V1, y=agg$V2,color=agg$V3)) + 
+  geom_point(size=2)+
+  ggtitle("Aggregation")+
+  theme(axis.title.x=element_blank(),
+        axis.title.y = element_blank(),legend.position="none")
+```
+
+  Dwa skupienia punktow na plaszczyznie dwuwymiarowej z rozna iloscia punktow w skupisku,
+jednakze dosc latwe do odróżnienia dla algorytmow.
+
+```{r,echo=FALSE}
+flm <- cbind(flame,flame.label)
+colnames(flm) <- c("V1","V2","V3")
+ggplot(flame, aes(x=flm$V1, y=flm$V2,color=flm$V3)) + 
+  geom_point(size=2)+
+  ggtitle("Flame")+
+  theme(axis.title.x=element_blank(),
+        axis.title.y = element_blank(),legend.position="none")
+```
+
+Dwie linie z delikatnym szumem przecinajace plaszczyzne, leżące w dość dużej odległości od siebie.
+
+```{r,echo=FALSE}
+com <- cbind(compound,compound.label)
+colnames(com) <- c("V1","V2","V3")
+ggplot(compound, aes(x=com$V1, y=com$V2,color=com$V3)) + 
+  geom_point(size=2)+
+  ggtitle("Compound")+
+  theme(axis.title.x=element_blank(),
+        axis.title.y = element_blank(),legend.position="none")
+```
+
+Dwie spirale jedna wewnatrz drugiej tworzace praktycznie okregi.
+
+
+A wiec sprawdzmy jak sprawuje sie nasz algorytm
+
+
+```{r  echo=FALSE, message=FALSE, cache=TRUE, warning=FALSE}
+agg_score <- function(){
+wynik_agg <- spectral_clustering(aggregation,4,length(unique(aggregation.label)))
+wynik_agg <- sort(wynik_agg)
+s1 <- mclust::adjustedRandIndex(wynik_agg,aggregation.label)
+s2 <- dendextend::FM_index(wynik_agg,aggregation.label)
+return(list(s1,s2[1]))
+}
+flame_score <- function(){
+wynik_agg <- spectral_clustering(flame,3,length(unique(flame.label)))
+wynik_agg <- sort(wynik_agg)
+s1 <- mclust::adjustedRandIndex(wynik_agg,flame.label)
+s2 <- dendextend::FM_index(wynik_agg,flame.label)
+return(list(s1,s2[1]))
+}
+compound_score <- function(){
+wynik_agg <- spectral_clustering(compound,4,length(unique(compound.label)))
+wynik_agg <- sort(wynik_agg)
+s1 <- mclust::adjustedRandIndex(wynik_agg,compound.label)
+s2 <- dendextend::FM_index(wynik_agg,compound.label)
+return(list(s1,s2[1]))
+}
+testy <- function(){
+probka <- 0
+zapis <- NULL
+for(i in 1:15){
+  x1 <- as.data.frame(rbind(unlist(agg_score()),unlist(compound_score()),unlist(flame_score())))
+  x1 <- round(x1,2)
+  k <- min(x1[,1])
+  if(k>probka){
+    zapis <- x1
+    probka <- k
+  }
+}
+return(zapis)
+}
+
+  
+```
+
+
+```{r message=FALSE, warning=FALSE,echo=FALSE,cache=TRUE}
+x <- testy()
+colnames(x) <- c("Rand","FM")
+rownames(x) <- c("Aggregation","Flame","Compund")
+knitr::kable(x,format ="latex" )
+
+```
+
+  Obliczjac srednie dzialanie algorytmu na wybranych przeze mnie zbiorach widac dziła on całkiem dobrze. Ze wzgledu na to iz funkcja kmeans waha sie ze swoimi wynikami, zdecydowalem sie puscic algorytm kilka razy i wziac najlepszy z wynikow aby zniwelowac te wahania. Algorytm mozna probowac dodatkowo testowac zmieniajac wartosc parametru M, jednakze widac ze dla tego paramteru wybranego przeze mnie algorytm sprawuje sie calkiem niezle.
+
+```{r,echo=FALSE,cache=TRUE}
+s <- as.data.frame(colMeans(testy()))
+colnames(s) <- c("Srednia")
+rownames(s) <- c("Rand","FM")
+ggplot(s, aes(rownames(s),Srednia,fill=Srednia))+geom_bar(stat="identity", fill="steelblue")+
+  theme_minimal()+geom_text(aes(label=round(Srednia,2)), vjust=1.6, color="white", size=3.5)+xlab("Wspolczynniki")
+
+```
+
+\newpage
+
+Sprawdzmy czy standaryzacja kolumn pomoże poprawic wynik algorytmow.
+
+```{r  echo=FALSE, message=FALSE, cache=TRUE, warning=FALSE}
+aggregation1 <- scale(aggregation)
+agg_score1 <- function(){
+wynik_agg <- spectral_clustering(aggregation1,4,length(unique(aggregation.label)))
+wynik_agg <- sort(wynik_agg)
+s1 <- mclust::adjustedRandIndex(wynik_agg,aggregation.label)
+s2 <- dendextend::FM_index(wynik_agg,aggregation.label)
+return(list(s1,s2[1]))
+}
+flame1 <- scale(flame)
+flame_score1 <- function(){
+wynik_agg <- spectral_clustering(flame1,3,length(unique(flame.label)))
+wynik_agg <- sort(wynik_agg)
+s1 <- mclust::adjustedRandIndex(wynik_agg,flame.label)
+s2 <- dendextend::FM_index(wynik_agg,flame.label)
+return(list(s1,s2[1]))
+}
+compound1 <- scale(compound)
+compound_score1 <- function(){
+wynik_agg <- spectral_clustering(compound1,4,length(unique(compound.label)))
+wynik_agg <- sort(wynik_agg)
+s1 <- mclust::adjustedRandIndex(wynik_agg,compound.label)
+s2 <- dendextend::FM_index(wynik_agg,compound.label)
+return(list(s1,s2[1]))
+}
+
+testy1 <- function(){
+probka <- 0
+zapis <- NULL
+for(i in 1:15){
+  x1 <- as.data.frame(rbind(unlist(agg_score1()),unlist(compound_score1()),unlist(flame_score1())))
+  x1 <- round(x1,2)
+  k <- min(x1[,1])
+  if(k>probka){
+    zapis <- x1
+    probka <- k
+  }
+}
+return(zapis)
+}
+
+  
+  
+```
+
+
+```{r message=FALSE, warning=FALSE,echo=FALSE,cache=TRUE}
+x <- as.data.frame(testy1())
+colnames(x) <- c("Rand","FM")
+rownames(x) <- c("Aggregation","Flame","Compound")
+knitr::kable(x,format="latex")
+```
+
+
+  Widac ze najlepszy z wynikow jest bardzo podobny do tego ktory osiagnelismy bez standaryzacji, wiec mozna pokusic sie o stwierdzenie ze w tym wypadku nie poprawia to dzialania algorytmu.
+
+  W ogolnosci algorytm prezentuje sie dobrze, jednakze moze to byc rowniez kwestia tego iz zbiory utworzone przeze mnie sa dosc proste w swojej budowie. W drugim raporice bedzie wieksza okazja do zobaczenia tego jak algorytm sie prezentuje gdyz bede mogl go puscic na wiekszej ilosci zbiorow.

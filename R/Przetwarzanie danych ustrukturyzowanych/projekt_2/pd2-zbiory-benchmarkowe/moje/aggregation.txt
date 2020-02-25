@@ -1,0 +1,2 @@
+Dwa skupienia punktow na plaszczyznie dwuwymiarowej z rozna iloscia punktow w skupisku,
+jednakze dosc latwe do odroznienia dla algorytmow.
