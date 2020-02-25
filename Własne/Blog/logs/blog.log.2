@@ -1,0 +1,117 @@
+2020-02-24 16:11:12,110 ERROR: Exception on /favicon.ico [GET] [in /home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1925, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1907, in raise_routing_exception
+    raise request.routing_exception
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/ctx.py", line 350, in match_request
+    result = self.url_adapter.match(return_rule=True)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/werkzeug/routing.py", line 1945, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1815, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1743, in handle_http_exception
+    return handler(e)
+  File "/home/arctickey/PycharmProjects/Blog/app/errors.py", line 6, in not_found_error
+    return render_template('404.html'),404
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 930, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/loaders.py", line 129, in load
+    code = environment.compile(source, name, filename)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 638, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "/home/arctickey/PycharmProjects/Blog/app/templates/404.html", line 2, in template
+    {% block_app content %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'block_app'.
+2020-02-24 16:13:16,174 INFO: Microblog startup [in /home/arctickey/PycharmProjects/Blog/app/__init__.py:51]
+2020-02-24 16:13:17,573 ERROR: Exception on /login [GET] [in /home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/arctickey/PycharmProjects/Blog/app/routes.py", line 45, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 930, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/loaders.py", line 129, in load
+    code = environment.compile(source, name, filename)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 638, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "/home/arctickey/PycharmProjects/Blog/app/templates/login.html", line 8, in template
+    {% wtf.quick_form(form) %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'wtf'. Jinja was looking for the following tags: 'endblock'. The innermost block that needs to be closed is 'block'.
+2020-02-24 16:13:21,577 ERROR: Exception on /login [GET] [in /home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py:1891]
+Traceback (most recent call last):
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 2446, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1951, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1820, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1949, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/app.py", line 1935, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/arctickey/PycharmProjects/Blog/app/routes.py", line 45, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/flask/templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 930, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/loaders.py", line 129, in load
+    code = environment.compile(source, name, filename)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 638, in compile
+    self.handle_exception(source=source_hint)
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "/home/arctickey/PycharmProjects/Blog/venv/lib/python3.6/site-packages/jinja2/_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "/home/arctickey/PycharmProjects/Blog/app/templates/login.html", line 8, in template
+    {% wtf.quick_form(form) %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'wtf'. Jinja was looking for the following tags: 'endblock'. The innermost block that needs to be closed is 'block'.

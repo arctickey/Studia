@@ -1,0 +1,2 @@
+Blog tworzony we Flasku.
+
