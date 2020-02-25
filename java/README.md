@@ -1,1 +1,1 @@
-Aplikacja do śledzenia nawyków żywieniowych
+Aplikacja posiadające rozbudowane GUI służąca do śledzenia nawyków żywieniowych
