@@ -1,0 +1,29 @@
+{% extends"base.html"%}
+{% block app_content %}
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+    <body>
+    <table class="table">
+    <thead>
+    <tr>
+       <th>
+        <h1>Interia</h1>
+       </th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for con in content %}
+            <tr>
+            <td><div> <a href="{{ con.link }}"> {{ con.title }}</a></div></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    </body>
+</html>
+{% endblock %}
+
