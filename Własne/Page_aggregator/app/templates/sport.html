@@ -11,35 +11,19 @@
     <thead>
     <tr>
        <th>
-        <h1>Interia</h1>
-       </th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for con in content_interia %}
-            <tr>
-            <td><div> <a href="{{ con.link }}"> {{ con.title }}</a></div></td>
-            </tr>
-        {% endfor %}
-    </tbody>
-    </table>
-     <table class="table" style="float: left; width:30%">
-    <thead>
-    <tr>
-       <th>
         <h1>Gazeta</h1>
        </th>
     </tr>
     </thead>
     <tbody>
-        {% for con in content_gazeta %}
+        {% for con in content_gazeta_sport %}
             <tr>
             <td><div> <a href="{{ con.link }}"> {{ con.title }}</a></div></td>
             </tr>
         {% endfor %}
     </tbody>
     </table>
-    <table class="table" style="float: left; width:30%">
+     <table class="table"  style="float: left; width:30%" >
     <thead>
     <tr>
        <th>
@@ -48,7 +32,7 @@
     </tr>
     </thead>
     <tbody>
-        {% for con in content_bbc %}
+        {% for con in content_bbc_sport %}
             <tr>
             <td><div> <a href="{{ con.link }}"> {{ con.title }}</a></div></td>
             </tr>

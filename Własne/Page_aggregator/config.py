@@ -8,5 +8,6 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     LENGTH = 10
     START_INDEX_INTERIA = 5
+    START_INDEX_GAZETA = 1
     CELERY_BROKER_URL = "amqp://localhost//"
     CELERY_RESULT_BACKEND =  "amqp://localhost//"

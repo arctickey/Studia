@@ -11,4 +11,4 @@ migrate = Migrate(app,db)
 #celery = Celery(app.name,broker=app.config['CELERY_BROKER_URL'])
 #celery.conf.update(app.config)
 
-from app import routes,models,fetcher
+from app import routes,models,news_fetcher
