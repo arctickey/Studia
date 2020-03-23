@@ -1,1 +1,1 @@
-Homeworks and projects from subject 
+Prace domowe oraz projekty z przedmiotu Uczenie Maszynowe 
