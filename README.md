@@ -1,3 +1,3 @@
 # Studia
-Prace wykonane w celach edukacyjnych, w ramach zajęć na Wydziale Matematyki i Nauk Informacyjnych Politechniki Warszawskiej oraz 
-we własnym zakresie mające na celu poszerzenie wiedzy.
+
+Works done for educational purposes, as part of classes at the Faculty of Mathematics and Information Sciences of the Warsaw University of Technology and on my own to expand knowledgde.
